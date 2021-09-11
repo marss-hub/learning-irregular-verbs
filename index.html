@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+
+    <script src="./words-array.js"></script>
+
+    <script>
+      //START вся игра
+      let rePlay = true;
+
+      Main: while (rePlay === true) {
+        //START показываем пользователю первое сообщение (слово на русском + форма + попытки)
+        //считаем к-во подмасивов
+        let dataMapVol = null;
+        for (let i = 0; dataMap[i] !== undefined; i++) {
+          dataMapVol = i;
+        }
+
+        //"загадываем" форму и словесную пару
+        const wordListNum = randNum(0, dataMapVol);
+        const wordFormNum = randNum(0, 2);
+
+        let wordForm = null;
+        if (wordFormNum === 0) {
+          wordForm = "Infinitive";
+        } else if (wordFormNum === 1) {
+          wordForm = "II форма глагола (PAST SIMPLE)";
+        } else if (wordFormNum === 2) {
+          wordForm = "III форма глагола (PAST PARTICIPLE)";
+        }
+
+        const wordEng = dataMap[wordListNum][wordFormNum];
+        const wordRus = dataMap[wordListNum][3];
+
+        //выводим сообщение
+        let userAnswer1 = "";
+
+        userAnswer1 = prompt(
+          `Слово "${wordRus}" в форме ${wordForm}. \n \n Осталось попыток: 3`
+        );
+        //END показываем пользователю первое сообщение (слово на русском + форма + попытки)
+
+        //START проверяем ответ пользователя
+        let hint = "";
+
+        for (let i = 2; i !== 0; i--) {
+          if (userAnswer1 === null) break Main;
+          if (userAnswer1 === wordEng) break;
+
+          //определяем к-во букв в английском слове
+          let characterVolEng = null;
+          for (let i2 = 0; wordEng[i2] !== undefined; i2++) {
+            characterVolEng = i2;
+          }
+
+          //сравниваем по буквам и пишем подсказку
+          for (let i3 = 0; i3 <= characterVolEng; i3++) {
+            if (wordEng[i3] === userAnswer1[i3]) {
+              hint += wordEng[i3];
+            } else {
+              hint += "*";
+            }
+          } 
+
+          userAnswer1 = prompt(
+            `Слово "${wordRus}" в форме ${wordForm}. \n \n Осталось попыток: ${i} \n \n Подсказка: ${hint}`
+          );
+          hint = "";
+        }
+
+        //вывод итогового результата
+        if (userAnswer1 === wordEng) {
+          alert(`ВЕРНО! Слово "${wordRus}" в форме ${wordForm} - ${wordEng}`);
+        } else if (userAnswer1 !== wordEng) {
+          alert(
+            `НЕВЕРНО! Запомните, слово "${wordRus}" в форме ${wordForm} - ${wordEng}`
+          );
+        } else {
+          alert("ОШИБКА!");
+        }
+        //END проверяем ответ пользователя
+      }
+      alert("Спасибо за игру! Для повторного запуска перезагрузите страницу");
+      //END вся игра
+    </script>
+  </body>
+</html>
