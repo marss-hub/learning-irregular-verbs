@@ -1,2 +1,2 @@
 # learning-irregular-verbs
-base version
+simple program on JavaScript for learn irregular verbs. Works in the browser
